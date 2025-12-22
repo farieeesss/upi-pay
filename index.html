@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Pay Now</title>
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+
+      const upi = params.get("upi");
+      const name = params.get("name");
+      const amount = params.get("amount");
+      const note = params.get("note");
+
+      if (upi && amount) {
+        const upiLink =
+          `upi://pay?pa=${upi}&pn=${name}&am=${amount}&tn=${note}&cu=INR`;
+
+        window.location.href = upiLink;
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Redirecting to UPI app…</p>
+</body>
+</html>

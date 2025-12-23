@@ -1,27 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pay Now</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Payment</title>
+  <style>
+    /* Konjam neat-ah professional look kudukka indha CSS */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f7f6;
+    }
+    .payment-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .amount-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin: 10px 0;
+    }
+    .pay-button {
+      background-color: #2e7d32; /* Green color for trust */
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+    .pay-button:hover {
+      background-color: #1b5e20;
+    }
+    .info-text {
+      font-size: 14px;
+      color: #666;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-card">
+    <h2>Invoice Payment</h2>
+    <p>Pay to: <strong id="displayName">Merchant</strong></p>
+    <div class="amount-text" id="displayAmount">₹0.00</div>
+    
+    <button id="payBtn" class="pay-button">Pay Now via UPI</button>
+    
+    <p class="info-text">Choose your preferred UPI app (GPay, PhonePe, Paytm) after clicking the button.</p>
+  </div>
+
   <script>
-    window.onload = function () {
-      const params = new URLSearchParams(window.location.search);
+    // URL-la irundhu data-va edukkirom
+    const params = new URLSearchParams(window.location.search);
+    const upi = params.get("upi");
+    const name = params.get("name") || "Merchant";
+    const amount = params.get("amount");
+    const note = params.get("note") || "Payment";
 
-      const upi = params.get("upi");
-      const name = params.get("name");
-      const amount = params.get("amount");
-      const note = params.get("note");
+    // UI-la data-va update pandrom
+    if (amount) {
+      document.getElementById("displayAmount").innerText = "₹" + amount;
+      document.getElementById("displayName").innerText = name;
+    }
 
+    // Button Click pannum bodhu dhaan UPI open aagum
+    document.getElementById("payBtn").onclick = function () {
       if (upi && amount) {
-        const upiLink =
-          `upi://pay?pa=${upi}&pn=${name}&am=${amount}&tn=${note}&cu=INR`;
-
+        // Correct UPI Deep Link Format
+        const upiLink = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+        
+        // Direct redirection on click
         window.location.href = upiLink;
+      } else {
+        alert("Invalid Payment Details!");
       }
     };
   </script>
-</head>
-<body>
-  <p>Redirecting to UPI app…</p>
+
 </body>
 </html>

@@ -84,7 +84,7 @@
     document.getElementById("payBtn").onclick = function () {
       if (upi && amount) {
         // Correct UPI Deep Link Format
-        const upiLink = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR&mc=8999`;
+        const upiLink = `upi://pay?pa=${upi}&pn=${encodeURIComponent(name)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
         
         // Direct redirection on click
         window.location.href = upiLink;
